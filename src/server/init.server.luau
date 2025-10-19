@@ -1,0 +1,8 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerStorage = game:GetService("ServerStorage")
+local Knit = require(ReplicatedStorage.Packages.Knit)
+Knit.AddServices(ServerStorage.Servers.Services)
+
+Knit.Start():andThen(function()
+    print("started on server")
+end):catch(warn)
