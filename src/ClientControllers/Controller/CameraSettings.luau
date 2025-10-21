@@ -8,7 +8,7 @@ local CameraController = Knit.CreateController({
 
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
-local hrp: BasePart? = nil
+local hrp = nil
 local renderConn: RBXScriptConnection? = nil
 
 local cameraOffset = Vector3.new(0, 20, 0)
@@ -24,7 +24,8 @@ function CameraController:_onRenderStepped()
 end
 
 function CameraController:_onCharacterAdded(character: Model)
-	hrp = character:WaitForChild("HumanoidRootPart")
+	--styelua: ingore
+	hrp = character:FindFirstChild("HumanoidRootPart")
 	local humanoid = character:WaitForChild("Humanoid")
 
 	camera.CameraSubject = humanoid
