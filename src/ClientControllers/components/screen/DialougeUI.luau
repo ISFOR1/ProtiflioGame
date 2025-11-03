@@ -140,61 +140,79 @@ local function DialogueUI(props)
 		return nil
 	end
 
+	local cornerRadius = UDim.new(0.04, 0)
+	local outerBlackBorderThickness = 15 * scaleFactor
+	local whiteBorderThickness = 6.5 * scaleFactor
+
 	return e("TextButton", {
 		Size = UDim2.fromScale(0.47, 0.27),
 		Position = dialogueBoxPosition,
 		Rotation = dialogueBoxRotation,
 		AnchorPoint = Vector2.new(0.5, 0.5),
-		BackgroundColor3 = Color3.fromHex("#000000"),
-		BackgroundTransparency = groupTransparency:map(function(val)
-			return 0.32 + val
-		end),
-		BorderSizePixel = 0,
 		Text = "",
 		AutoButtonColor = false,
 		[React.Event.MouseButton1Click] = handleClick,
+		BackgroundColor3 = Color3.fromHex("#181818"),
+		BackgroundTransparency = groupTransparency,
+		BorderSizePixel = 0,
 	}, {
-		UICorner = e("UICorner", { CornerRadius = UDim.new(0.04, 0) }),
-		UIStroke = e("UIStroke", {
-			Color = Color3.fromHex("#181818"),
-			Thickness = 25 * scaleFactor,
-			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-			Transparency = groupTransparency,
-			BorderOffset = UDim.new(0, -20 * scaleFactor),
+		UICorner = e("UICorner", { CornerRadius = cornerRadius }),
+		Padding = e("UIPadding", {
+			PaddingTop = UDim.new(0, outerBlackBorderThickness),
+			PaddingBottom = UDim.new(0, outerBlackBorderThickness),
+			PaddingLeft = UDim.new(0, outerBlackBorderThickness),
+			PaddingRight = UDim.new(0, outerBlackBorderThickness),
 		}),
-		UIStroke2 = e("UIStroke", {
-			Color = Color3.fromHex("#dadada"),
-			Thickness = 6.5 * scaleFactor,
-			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-			BorderOffset = UDim.new(0, -10 * scaleFactor),
-			ZIndex = 2,
-			Transparency = groupTransparency,
-		}),
-		DilaougeText = e(TextLabel, {
-			Size = UDim2.fromScale(0.5, 0.6),
-			Position = UDim2.fromScale(0.57, 0.4),
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			Text = displayedText,
-			TextColor3 = Color3.fromRGB(255, 255, 255),
-			TextScaled = true,
-			TextTransparency = groupTransparency,
-			Font = Enum.Font.Gotham,
-			IsStorked = false,
-		}),
-		ContinnueText = (not isTyping) and e(TextLabel, {
-			Size = UDim2.fromScale(0.23, 0.13),
-			Position = UDim2.fromScale(0.57, 0.83),
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			Text = "Click to continue...",
-			TextColor3 = Color3.fromRGB(200, 200, 200),
-			TextScaled = true,
-			TextTransparency = blinkBinding,
-			IsStorked = false,
-		}) or nil,
-		PortFrame = e(ViewPortFrame, {
-			Size = UDim2.fromScale(0.6, 1.2),
-			Position = UDim2.fromScale(0.12, 0.41),
-			animationName = isVisible and currentDialogue.animation or nil,
+
+		WhiteBorderFrame = e("Frame", {
+			Size = UDim2.fromScale(1, 1),
+			BackgroundColor3 = Color3.fromHex("#dadada"),
+			BackgroundTransparency = groupTransparency,
+			BorderSizePixel = 0,
+		}, {
+			UICorner = e("UICorner", { CornerRadius = UDim.new(0.03, 0) }),
+			Padding = e("UIPadding", {
+				PaddingTop = UDim.new(0, whiteBorderThickness),
+				PaddingBottom = UDim.new(0, whiteBorderThickness),
+				PaddingLeft = UDim.new(0, whiteBorderThickness),
+				PaddingRight = UDim.new(0, whiteBorderThickness),
+			}),
+
+			InnerBackground = e("Frame", {
+				Size = UDim2.fromScale(1, 1),
+				BackgroundColor3 = Color3.fromHex("#000000"),
+				BackgroundTransparency = 0,
+				BorderSizePixel = 0,
+			}, {
+				UICorner = e("UICorner", { CornerRadius = UDim.new(0.02, 0) }),
+
+				DilaougeText = e(TextLabel, {
+					Size = UDim2.fromScale(0.5, 0.6),
+					Position = UDim2.fromScale(0.57, 0.4),
+					AnchorPoint = Vector2.new(0.5, 0.5),
+					Text = displayedText,
+					TextColor3 = Color3.fromRGB(255, 255, 255),
+					TextScaled = true,
+					TextTransparency = groupTransparency,
+					Font = Enum.Font.Gotham,
+					IsStorked = false,
+				}),
+				ContinnueText = (not isTyping) and e(TextLabel, {
+					Size = UDim2.fromScale(0.23, 0.13),
+					Position = UDim2.fromScale(0.57, 0.83),
+					AnchorPoint = Vector2.new(0.5, 0.5),
+					Text = "Click to continue...",
+					TextColor3 = Color3.fromRGB(200, 200, 200),
+					TextScaled = true,
+					TextTransparency = blinkBinding,
+					IsStorked = false,
+				}) or nil,
+				PortFrame = e(ViewPortFrame, {
+					Size = UDim2.fromScale(0.6, 1.2),
+					Position = UDim2.fromScale(0.12, 0.41),
+					animationName = isVisible and currentDialogue.animation or nil,
+				}),
+			}),
 		}),
 	})
 end

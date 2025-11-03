@@ -7,7 +7,7 @@ local e = React.createElement
 -- Define as 16:9(1920 x 1080) for HD designs.
 local AspectRatio = 16 / 9
 -- BaseHeight for scaling calculations.
-local BaseHeight = 720
+local BaseHeight = 1080
 
 local ScaleContext = React.createContext({
 	uiScaleFactor = 1,
