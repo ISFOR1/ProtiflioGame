@@ -24,7 +24,6 @@ function CameraController:_onRenderStepped()
 end
 
 function CameraController:_onCharacterAdded(character: Model)
-	--styelua: ingore
 	hrp = character:FindFirstChild("HumanoidRootPart")
 	local humanoid = character:WaitForChild("Humanoid")
 
@@ -50,7 +49,9 @@ function CameraController:disableFixedCam()
 	camera.CameraType = Enum.CameraType.Custom
 end
 
-function CameraController:KnitStart()
+function CameraController:KnitStart() end
+
+function CameraController:KnitInit()
 	player.CharacterAdded:Connect(function(character)
 		self:_onCharacterAdded(character)
 	end)
@@ -63,7 +64,5 @@ function CameraController:KnitStart()
 		self:_onCharacterAdded(player.Character)
 	end
 end
-
-function CameraController:KnitInit() end
 
 return CameraController

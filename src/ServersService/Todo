@@ -1,0 +1,3 @@
+    -- Play a final animation, show a UI, etc.
+    -- For example, you could fire a new signal for your React UI
+    -- DialogueSignal:Fire(true) -- or a new "EndGame" UI

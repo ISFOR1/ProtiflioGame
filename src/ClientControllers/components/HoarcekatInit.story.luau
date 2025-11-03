@@ -1,38 +1,37 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Packages = ReplicatedStorage.Packages
 
-local React = require(ReplicatedStorage.Packages.React)
-local ReactRoblox = require(ReplicatedStorage.Packages["react-roblox"])
+local React = require(Packages.React)
+local ReactRoblox = require(Packages["react-roblox"])
 local DialogueUI = require(ReplicatedStorage.Client.components.screen.DialougeUI)
+local DialogueSignal = require(ReplicatedStorage.Client.hooks.DialogueSignal)
+local ScaleProvider = require(ReplicatedStorage.Client.Modules.ScaleProvider)
 
 local e = React.createElement
 
 return function(target)
 	local function StoryWrapper()
-		local visible, setVisible = React.useState(false)
+		React.useEffect(function()
+			DialogueSignal:Fire(true)
+			return function()
+				DialogueSignal:Fire(false)
+			end
+		end, {})
 
-		return e(React.Fragment, {}, {
-			ToggleButton = e("TextButton", {
-				Size = UDim2.fromOffset(150, 50),
-				Position = UDim2.fromScale(0.1, 0.1),
-				AnchorPoint = Vector2.new(0, 0),
-				Text = "Toggle Dialogue",
-				[React.Event.MouseButton1Click] = function()
-					setVisible(not visible)
-				end,
-			}),
+		return e(ScaleProvider.Provider, {}, {
 			Dialogue = e(DialogueUI, {
-				IsVisible = visible,
-				OnButtonClicked = function()
-					print("DialogueUI internal button clicked!")
-				end,
+				disableSound = true,
 			}),
 		})
 	end
 
+	--Mount the story to the target
 	local root = ReactRoblox.createRoot(Instance.new("Folder"))
 
+	-- Render it on the screen of the target
 	root:render(ReactRoblox.createPortal(e(StoryWrapper), target))
 
+	-- somethings goes wrong unmount it
 	return function()
 		root:unmount()
 	end

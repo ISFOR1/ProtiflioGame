@@ -1,23 +1,22 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Knit = require(ReplicatedStorage.Packages.Knit)
 local IdleAnimation = ReplicatedStorage.Asset.Animations.IdleAnimation
-local PlayAnimationOn = workspace.NPC
+local PlayAnimationOn = workspace.DialogueNPC
 
-local AnimationLogic = Knit.CreateController { Name = "AnimationLogic" }
+local AnimationLogic = Knit.CreateController({ Name = "AnimationLogic" })
 
 function AnimationLogic:KnitStart()
-    local humanoid = PlayAnimationOn:FindFirstChildOfClass("Humanoid")
-    if not humanoid then
-        return
-    end
+	local humanoid = PlayAnimationOn:FindFirstChildOfClass("Humanoid")
+	local Animator = humanoid:FindFirstChild("Animator")
+	if not Animator then
+		return
+	end
 
-    local idleAnimTrack = humanoid:LoadAnimation(IdleAnimation)
-    idleAnimTrack.Looped = true
-    idleAnimTrack:Play()
+	local idleAnimTrack = Animator:LoadAnimation(IdleAnimation)
+	idleAnimTrack.Looped = true
+	idleAnimTrack:Play()
 end
 
-function AnimationLogic:KnitInit()
-
-end
+function AnimationLogic:KnitInit() end
 
 return AnimationLogic
