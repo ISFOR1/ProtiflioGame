@@ -6,7 +6,9 @@ local loop = {}
 loop.registry = setmetatable({}, { __mode = "k" })
 
 RunService.Heartbeat:Connect(function(dt)
-	if not next(loop.registry) then return end
+	if not next(loop.registry) then
+		return
+	end
 
 	for motion in pairs(loop.registry) do
 		motion:step(dt)
