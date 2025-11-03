@@ -4,10 +4,10 @@ local React = require(Packages.React)
 
 local e = React.createElement
 
--- Define your "design" aspect ratio. 16:9 is a good standard.
-local DESIGN_ASPECT_RATIO = 16 / 9
--- Define a "base" height for scaling pixel values
-local BASE_HEIGHT = 720
+-- Define as 16:9(1920 x 1080) for HD designs.
+local AspectRatio = 16 / 9
+-- BaseHeight for scaling calculations.
+local BaseHeight = 720
 
 local ScaleContext = React.createContext({
 	uiScaleFactor = 1,
@@ -29,7 +29,7 @@ local function ScaleProvider(props)
 		local function updateScale()
 			local safeFrameHeight = safeFrame.AbsoluteSize.Y
 			if safeFrameHeight > 0 then
-				setUiScaleFactor(safeFrameHeight / BASE_HEIGHT)
+				setUiScaleFactor(safeFrameHeight / BaseHeight)
 			else
 				setUiScaleFactor(1) -- Default to 1 if not rendered
 			end
@@ -57,7 +57,7 @@ local function ScaleProvider(props)
 		ref = safeFrameRef, -- Assign the ref
 	}, {
 		AspectConstraint = e("UIAspectRatioConstraint", {
-			AspectRatio = DESIGN_ASPECT_RATIO,
+			AspectRatio = AspectRatio,
 			AspectType = Enum.AspectType.FitWithinMaxSize,
 			DominantAxis = Enum.DominantAxis.Width,
 		}),
